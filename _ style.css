@@ -1,16 +1,16 @@
 /* style.css */
 body {
     font-family: sans-serif;
-    margin: 0; /* Eliminar márgenes predeterminados del body */
-    background-color: #e3f2fd; /* Un tono de azul institucional claro */
-    color: #333; /* Color de texto principal */
+    margin: 0;
+    background-color: #e3f2fd; /* Azul institucional claro */
+    color: #333;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Asegurar que el fondo azul cubra toda la pantalla */
+    min-height: 100vh;
 }
 
 header {
-    background-color: #1e88e5; /* Un azul más fuerte para el encabezado */
+    background-color: #1e88e5; /* Azul más fuerte para el encabezado */
     color: white;
     text-align: center;
     padding: 20px;
@@ -18,11 +18,11 @@ header {
 }
 
 .subheader {
-    color: #bbdefb; /* Un tono más claro para el subheader */
+    color: #bbdefb;
 }
 
 main {
-    flex-grow: 1; /* Permitir que el main ocupe el espacio restante */
+    flex-grow: 1;
     padding: 20px;
 }
 
@@ -40,12 +40,12 @@ button {
     border-radius: 5px;
     font-weight: bold;
     color: white;
-    background-color: #42a5f5; /* Un tono de azul para los botones */
+    background-color: #42a5f5; /* Azul para los botones */
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #1e88e5; /* Oscurecer al pasar el ratón */
+    background-color: #1e88e5;
 }
 
 .table-container {
@@ -53,18 +53,18 @@ button:hover {
     flex-direction: column;
     gap: 10px;
     margin-bottom: 20px;
-    width: 100%; /* La tabla ocupa todo el ancho del contenedor main */
+    width: 100%;
 }
 
 .row {
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 100%; /* Cada fila ocupa todo el ancho del contenedor de la tabla */
+    width: 100%;
 }
 
 .row label {
-    width: 120px; /* Un poco más de espacio para la etiqueta */
+    width: 120px;
     text-align: right;
     font-weight: bold;
 }
@@ -73,20 +73,20 @@ button:hover {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    width: calc(100% / 8 - 10px); /* Distribución equitativa de los inputs */
+    width: calc(100% / 8 - 10px);
 }
 
 .valve-input {
     padding: 10px;
-    border: 1px solid #90caf9; /* Un borde azul claro */
+    border: 1px solid #90caf9; /* Borde azul claro */
     border-radius: 4px;
     text-align: center;
-    box-sizing: border-box; /* Incluir el padding y el borde en el ancho */
-    width: 100%; /* El input ocupa todo el ancho de su contenedor */
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .valve-input.marked {
-    background-color: #c8e6c9; /* Verde claro para indicar marcado */
+    background-color: #c8e6c9; /* Verde claro para marcado */
 }
 
 .input-container .message {
