@@ -1,12 +1,12 @@
 const valveInputs = document.querySelectorAll('.valve-input');
-const initialTolerances = Array.from({ length: 16 }, () => Math.floor(Math.random() * 7) + 8); // Genera tolerancias aleatorias (8-14)
+const initialTolerances = Array.from({ length: 24 }, () => Math.floor(Math.random() * 7) + 8); // 24 tolerancias
 
 valveInputs.forEach((input, index) => {
-    input.dataset.tolerance = initialTolerances[index]; // Asigna la tolerancia oculta
+    input.dataset.tolerance = initialTolerances[index];
 
     input.addEventListener('focus', () => {
         input.classList.toggle('marked');
-        input.nextElementSibling.textContent = ''; // Limpiar mensaje al enfocar
+        input.nextElementSibling.textContent = '';
     });
 
     input.addEventListener('blur', () => {
@@ -16,6 +16,7 @@ valveInputs.forEach((input, index) => {
         const idealAverage = 11;
         const difference = idealAverage - (isNaN(enteredValue) ? tolerance : enteredValue);
         const rowId = input.closest('.row').id;
+        const position = input.closest('.input-container').dataset.position;
         let valveType = '';
 
         if (rowId === 'escape-row') {
@@ -27,14 +28,14 @@ valveInputs.forEach((input, index) => {
         let message = '';
         if (!isNaN(enteredValue)) {
             if (difference > 0) {
-                message = `Aumenta ${difference} mm (${valveType}).`;
+                message = `Aumenta ${difference} mm (${valveType} - Pos. ${position}).`;
             } else if (difference < 0) {
-                message = `Disminuye ${Math.abs(difference)} mm (${valveType}).`;
+                message = `Disminuye ${Math.abs(difference)} mm (${valveType} - Pos. ${position}).`;
             } else {
-                message = `Promedio ideal (${valveType}).`;
+                message = `Promedio ideal (${valveType} - Pos. ${position}).`;
             }
         } else {
-            message = `Valor default: ${tolerance} mm (${valveType}). Ingrese valor.`;
+            message = `Default: ${tolerance} mm (${valveType} - Pos. ${position}). Ingrese valor.`;
         }
 
         messageDiv.textContent = message;
@@ -47,15 +48,15 @@ const escapeRow = document.getElementById('escape-row');
 const admissionRow = document.getElementById('admission-row');
 const escapeLabel = escapeRow.querySelector('label');
 const admissionLabel = admissionRow.querySelector('label');
-const escapeInputs = escapeRow.querySelectorAll('.input-container');
-const admissionInputs = admissionRow.querySelectorAll('.input-container');
+const escapeInputs = Array.from(escapeRow.querySelectorAll('.input-container'));
+const admissionInputs = Array.from(admissionRow.querySelectorAll('.input-container'));
 
 togglePositionButton.addEventListener('click', () => {
     const tempLabel = escapeLabel.textContent;
     escapeLabel.textContent = admissionLabel.textContent;
     admissionLabel.textContent = tempLabel;
 
-    // Opcional: Intercambiar también los valores y marcados (si es necesario)
+    // Intercambiar valores y marcado
     escapeInputs.forEach((container, index) => {
         const escapeInput = container.querySelector('.valve-input');
         const admissionContainer = admissionInputs[index];
@@ -86,10 +87,13 @@ const resetButton = document.getElementById('reset-button');
 resetButton.addEventListener('click', () => {
     if (confirm("¿Estás seguro de que deseas restablecer los valores?")) {
         valveInputs.forEach((input, index) => {
-            input.value = ''; // Limpia los campos de entrada
-            input.classList.remove('marked'); // Remueve la clase 'marked'
-            input.dataset.tolerance = Math.floor(Math.random() * 7) + 8; // Regenera la tolerancia
-            input.nextElementSibling.textContent = `Valor default: ${input.dataset.tolerance} mm (${input.closest('.row').id === 'escape-row' ? 'ESCAPE' : 'ADMISIÓN'}). Ingrese valor.`;
+            input.value = '';
+            input.classList.remove('marked');
+            input.dataset.tolerance = Math.floor(Math.random() * 7) + 8;
+            const rowId = input.closest('.row').id;
+            const position = input.closest('.input-container').dataset.position;
+            const valveType = rowId === 'escape-row' ? 'ESCAPE' : 'ADMISIÓN';
+            input.nextElementSibling.textContent = `Default: ${input.dataset.tolerance} mm (${valveType} - Pos. ${position}). Ingrese valor.`;
         });
         console.log("Valores reseteados.");
     }
