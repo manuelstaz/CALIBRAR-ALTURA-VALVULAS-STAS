@@ -3,34 +3,39 @@
 
 .arrow-indicator {
     display: flex;
-    justify-content: flex-start; /* Coloca la flecha al inicio (izquierda) */
     align-items: center;
     margin-bottom: 10px;
 }
 
 .arrow-indicator img {
-    width: 50px; /* Ajusta el tamaño de la flecha según necesites */
+    width: 30px;
     height: auto;
-    margin-right: 10px; /* Espacio entre la flecha y la tabla */
+    margin-right: 5px;
 }
 
 .table-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     margin-bottom: 20px;
     width: 100%;
+    overflow-x: auto; /* Permite el desplazamiento horizontal si la tabla es muy ancha */
 }
 
-.row {
+.valve-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.valve-row {
     display: flex;
     align-items: center;
-    gap: 5px; /* Reduje el gap entre los input-container */
-    width: 100%;
+    gap: 5px;
 }
 
-.row label {
-    width: 120px;
+.valve-row label {
+    width: 80px;
     text-align: right;
     font-weight: bold;
 }
@@ -38,38 +43,65 @@
 .input-container {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
-    width: calc(100% / 12 - 5px); /* Distribución para 12 campos */
-    position: relative; /* Para posicionar el label de posición */
+    align-items: center; /* Centrar el input y el mensaje */
+    width: 60px; /* Ancho fijo para cada columna */
+    position: relative;
+}
+
+.position-label {
+    position: absolute;
+    top: -10px;
+    font-size: 0.7em;
+    color: #777;
 }
 
 .valve-input {
-    padding: 8px; /* Reduje un poco el padding */
+    padding: 8px;
     border: 1px solid #90caf9;
     border-radius: 4px;
     text-align: center;
     box-sizing: border-box;
     width: 100%;
-    font-size: 0.9em; /* Reduje un poco el tamaño de la fuente */
+    font-size: 0.8em;
+    cursor: pointer; /* Indicar que es interactivo para fijar color */
 }
 
 .valve-input.marked {
-    background-color: #c8e6c9;
+    background-color: #c8e6c9; /* Verde claro para marcado temporal */
+}
+
+.valve-input.fixed {
+    background-color: #aed581; /* Verde más oscuro para indicar fijo */
+    color: #fff; /* Texto blanco para mejor contraste */
 }
 
 .input-container .message {
-    font-size: 0.7em; /* Reduje el tamaño de la fuente del mensaje */
+    font-size: 0.6em;
     color: #555;
     text-align: center;
     margin-top: 3px;
     font-style: italic;
+    min-height: 1.2em; /* Espacio mínimo para el mensaje */
 }
 
-.position-label {
-    position: absolute;
-    top: -10px; /* Coloca el número encima del input */
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.7em;
-    color: #777;
+.controls-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.controls-container button {
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    background-color: #64b5f6; /* Otro tono de azul para los controles */
+    transition: background-color 0.3s ease;
+}
+
+.controls-container button:hover {
+    background-color: #1e88e5;
 }
