@@ -1,117 +1,107 @@
-const valveInputs = document.querySelectorAll('.valve-input');
-const initialTolerances = Array.from({ length: 24 }, () => Math.floor(Math.random() * 7) + 8);
+/* style.css */
+/* ... otros estilos ... */
 
-valveInputs.forEach((input, index) => {
-    input.dataset.tolerance = initialTolerances[index];
-
-    input.addEventListener('focus', () => {
-        input.classList.toggle('marked');
-        input.nextElementSibling.textContent = '';
-    });
-
-    input.addEventListener('blur', () => {
-        calculateAndDisplayMessage(input);
-    });
-
-    input.addEventListener('click', () => {
-        input.classList.toggle('fixed'); // Al hacer clic, se fija o quita el color verde
-    });
-});
-
-function calculateAndDisplayMessage(input) {
-    const enteredValue = parseInt(input.value);
-    const tolerance = parseInt(input.dataset.tolerance);
-    const messageDiv = input.nextElementSibling;
-    const idealAverage = 11;
-    const difference = idealAverage - (isNaN(enteredValue) ? tolerance : enteredValue);
-    const rowId = input.closest('.valve-row').id;
-    const position = input.closest('.input-container').dataset.position;
-    let valveType = '';
-
-    if (rowId === 'escape-row') {
-        valveType = 'ESCAPE';
-    } else if (rowId === 'admission-row') {
-        valveType = 'ADMISIÓN';
-    }
-
-    let message = '';
-    if (!isNaN(enteredValue)) {
-        if (difference > 0) {
-            message = `+${difference}`;
-        } else if (difference < 0) {
-            message = `${difference}`;
-        } else {
-            message = `=`;
-        }
-    } else {
-        message = `Def: ${tolerance}`;
-    }
-
-    messageDiv.textContent = message;
+.arrow-indicator {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
-// Lógica para el botón de "VOLTEAR POSICIÓN" (sin cambios importantes)
-const togglePositionButton = document.getElementById('toggle-position');
-const escapeRow = document.getElementById('escape-row');
-const admissionRow = document.getElementById('admission-row');
-const escapeLabel = document.querySelector('.valve-group:first-child label');
-const admissionLabel = document.querySelector('.valve-group:last-child label');
-const escapeInputsContainer = Array.from(escapeRow.querySelectorAll('.input-container'));
-const admissionInputsContainer = Array.from(admissionRow.querySelectorAll('.input-container'));
+.arrow-indicator img {
+    width: 30px;
+    height: auto;
+    margin-right: 5px;
+}
 
-togglePositionButton.addEventListener('click', () => {
-    const tempLabel = escapeLabel.textContent;
-    escapeLabel.textContent = admissionLabel.textContent;
-    admissionLabel.textContent = tempLabel;
+.table-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+    width: 100%;
+    overflow-x: auto; /* Permite el desplazamiento horizontal si la tabla es muy ancha */
+}
 
-    escapeInputsContainer.forEach((container, index) => {
-        const escapeInput = container.querySelector('.valve-input');
-        const admissionContainer = admissionInputsContainer[index];
-        const admissionInput = admissionContainer.querySelector('.valve-input');
+.valve-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 
-        const tempValue = escapeInput.value;
-        const tempMarked = escapeInput.classList.contains('marked');
-        const tempFixed = escapeInput.classList.contains('fixed');
+.valve-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
-        escapeInput.value = admissionInput.value;
-        escapeInput.className = 'valve-input'; // Resetear clases
-        if (admissionInput.classList.contains('marked')) escapeInput.classList.add('marked');
-        if (admissionInput.classList.contains('fixed')) escapeInput.classList.add('fixed');
+.valve-row label {
+    width: 80px;
+    text-align: right;
+    font-weight: bold;
+}
 
-        admissionInput.value = tempValue;
-        admissionInput.className = 'valve-input'; // Resetear clases
-        if (tempMarked) admissionInput.classList.add('marked');
-        if (tempFixed) admissionInput.classList.add('fixed');
-    });
-});
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar el input y el mensaje */
+    width: 60px; /* Ancho fijo para cada columna */
+    position: relative;
+}
 
-// Lógica para el botón de "CONTROL" (puedes añadir funcionalidad aquí si es necesario)
-const controlButton = document.getElementById('control-button');
-controlButton.addEventListener('click', () => {
-    alert("Botón de Control presionado (sin funcionalidad específica aún).");
-});
+.position-label {
+    position: absolute;
+    top: -10px;
+    font-size: 0.7em;
+    color: #777;
+}
 
-// Lógica para el botón de "REFRESH"
-const refreshButton = document.getElementById('refresh-button');
-refreshButton.addEventListener('click', () => {
-    valveInputs.forEach(input => {
-        input.value = '';
-        input.classList.remove('marked');
-        calculateAndDisplayMessage(input); // Mostrar solo el valor default
-    });
-});
+.valve-input {
+    padding: 8px;
+    border: 1px solid #90caf9;
+    border-radius: 4px;
+    text-align: center;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 0.8em;
+    cursor: pointer; /* Indicar que es interactivo para fijar color */
+}
 
-// Lógica para el botón de "RESET TOTAL"
-const resetTotalButton = document.getElementById('reset-total-button');
-resetTotalButton.addEventListener('click', () => {
-    if (confirm("¿Estás seguro de que deseas realizar un RESET TOTAL? Esto borrará todos los valores y el estado fijo.")) {
-        valveInputs.forEach((input, index) => {
-            input.value = '';
-            input.classList.remove('marked');
-            input.classList.remove('fixed');
-            input.dataset.tolerance = Math.floor(Math.random() * 7) + 8;
-            input.nextElementSibling.textContent = `Def: ${input.dataset.tolerance}`;
-        });
-        console.log("RESET TOTAL realizado.");
-    }
-});
+.valve-input.marked {
+    background-color: #c8e6c9; /* Verde claro para marcado temporal */
+}
+
+.valve-input.fixed {
+    background-color: #aed581; /* Verde más oscuro para indicar fijo */
+    color: #fff; /* Texto blanco para mejor contraste */
+}
+
+.input-container .message {
+    font-size: 0.6em;
+    color: #555;
+    text-align: center;
+    margin-top: 3px;
+    font-style: italic;
+    min-height: 1.2em; /* Espacio mínimo para el mensaje */
+}
+
+.controls-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.controls-container button {
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    background-color: #64b5f6; /* Otro tono de azul para los controles */
+    transition: background-color 0.3s ease;
+}
+
+.controls-container button:hover {
+    background-color: #1e88e5;
+}
