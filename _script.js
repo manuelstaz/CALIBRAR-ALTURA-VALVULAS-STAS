@@ -1,46 +1,43 @@
-// script.js
 const valveInputs = document.querySelectorAll('.valve-input');
+const initialTolerances = Array.from({ length: 16 }, () => Math.floor(Math.random() * 7) + 8); // Genera tolerancias aleatorias (8-14)
 
-valveInputs.forEach(input => {
+valveInputs.forEach((input, index) => {
+    input.dataset.tolerance = initialTolerances[index]; // Asigna la tolerancia oculta
+
     input.addEventListener('focus', () => {
         input.classList.toggle('marked');
-        // Limpiar el mensaje al enfocar (opcional)
-        input.nextElementSibling.textContent = '';
+        input.nextElementSibling.textContent = ''; // Limpiar mensaje al enfocar
     });
 
     input.addEventListener('blur', () => {
-        const index = parseInt(input.dataset.index);
         const enteredValue = parseInt(input.value);
-        const messageDiv = input.nextElementSibling; // El siguiente elemento hermano es el div.message
+        const tolerance = parseInt(input.dataset.tolerance);
+        const messageDiv = input.nextElementSibling;
+        const idealAverage = 11;
+        const difference = idealAverage - (isNaN(enteredValue) ? tolerance : enteredValue);
+        const rowId = input.closest('.row').id;
+        let valveType = '';
 
-        if (!isNaN(enteredValue)) {
-            const idealAverage = 11;
-            const difference = idealAverage - enteredValue;
-            const rowId = input.closest('.row').id;
-            let valveType = '';
-
-            if (rowId === 'escape-row') {
-                valveType = 'ESCAPE';
-            } else if (rowId === 'admission-row') {
-                valveType = 'ADMISIÓN';
-            }
-
-            let message = '';
-            if (difference > 0) {
-                message = `Aumenta ${difference} mm (Escape).`;
-                if (valveType === 'ADMISIÓN') message = `Aumenta ${difference} mm (Admisión).`;
-            } else if (difference < 0) {
-                message = `Disminuye ${Math.abs(difference)} mm (Escape).`;
-                if (valveType === 'ADMISIÓN') message = `Disminuye ${Math.abs(difference)} mm (Admisión).`;
-            } else {
-                message = `Promedio ideal (Escape).`;
-                if (valveType === 'ADMISIÓN') message = `Promedio ideal (Admisión).`;
-            }
-
-            messageDiv.textContent = message;
-        } else {
-            messageDiv.textContent = ''; // Limpiar el mensaje si no hay valor válido
+        if (rowId === 'escape-row') {
+            valveType = 'ESCAPE';
+        } else if (rowId === 'admission-row') {
+            valveType = 'ADMISIÓN';
         }
+
+        let message = '';
+        if (!isNaN(enteredValue)) {
+            if (difference > 0) {
+                message = `Aumenta ${difference} mm (${valveType}).`;
+            } else if (difference < 0) {
+                message = `Disminuye ${Math.abs(difference)} mm (${valveType}).`;
+            } else {
+                message = `Promedio ideal (${valveType}).`;
+            }
+        } else {
+            message = `Valor default: ${tolerance} mm (${valveType}). Ingrese valor.`;
+        }
+
+        messageDiv.textContent = message;
     });
 });
 
@@ -50,11 +47,37 @@ const escapeRow = document.getElementById('escape-row');
 const admissionRow = document.getElementById('admission-row');
 const escapeLabel = escapeRow.querySelector('label');
 const admissionLabel = admissionRow.querySelector('label');
+const escapeInputs = escapeRow.querySelectorAll('.input-container');
+const admissionInputs = admissionRow.querySelectorAll('.input-container');
 
 togglePositionButton.addEventListener('click', () => {
     const tempLabel = escapeLabel.textContent;
     escapeLabel.textContent = admissionLabel.textContent;
     admissionLabel.textContent = tempLabel;
+
+    // Opcional: Intercambiar también los valores y marcados (si es necesario)
+    escapeInputs.forEach((container, index) => {
+        const escapeInput = container.querySelector('.valve-input');
+        const admissionContainer = admissionInputs[index];
+        const admissionInput = admissionContainer.querySelector('.valve-input');
+
+        const tempValue = escapeInput.value;
+        const tempMarked = escapeInput.classList.contains('marked');
+
+        escapeInput.value = admissionInput.value;
+        if (admissionInput.classList.contains('marked')) {
+            escapeInput.classList.add('marked');
+        } else {
+            escapeInput.classList.remove('marked');
+        }
+
+        admissionInput.value = tempValue;
+        if (tempMarked) {
+            admissionInput.classList.add('marked');
+        } else {
+            admissionInput.classList.remove('marked');
+        }
+    });
 });
 
 // Lógica para el botón de "RESET"
@@ -62,11 +85,11 @@ const resetButton = document.getElementById('reset-button');
 
 resetButton.addEventListener('click', () => {
     if (confirm("¿Estás seguro de que deseas restablecer los valores?")) {
-        valveInputs.forEach(input => {
+        valveInputs.forEach((input, index) => {
             input.value = ''; // Limpia los campos de entrada
             input.classList.remove('marked'); // Remueve la clase 'marked'
-            input.nextElementSibling.textContent = ''; // Limpia los mensajes
-            // Aquí iría la lógica para regenerar los valores default ocultos
+            input.dataset.tolerance = Math.floor(Math.random() * 7) + 8; // Regenera la tolerancia
+            input.nextElementSibling.textContent = `Valor default: ${input.dataset.tolerance} mm (${input.closest('.row').id === 'escape-row' ? 'ESCAPE' : 'ADMISIÓN'}). Ingrese valor.`;
         });
         console.log("Valores reseteados.");
     }
