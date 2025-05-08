@@ -1,29 +1,51 @@
 /* style.css */
 body {
     font-family: sans-serif;
-    margin: 20px;
-    background-color: #f4f4f4;
+    margin: 0; /* Eliminar márgenes predeterminados del body */
+    background-color: #e3f2fd; /* Un tono de azul institucional claro */
+    color: #333; /* Color de texto principal */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Asegurar que el fondo azul cubra toda la pantalla */
 }
 
 header {
+    background-color: #1e88e5; /* Un azul más fuerte para el encabezado */
+    color: white;
     text-align: center;
+    padding: 20px;
     margin-bottom: 20px;
 }
 
 .subheader {
-    color: #777;
+    color: #bbdefb; /* Un tono más claro para el subheader */
+}
+
+main {
+    flex-grow: 1; /* Permitir que el main ocupe el espacio restante */
+    padding: 20px;
 }
 
 .button-container {
     display: flex;
     gap: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     justify-content: center;
 }
 
 button {
-    padding: 10px 15px;
+    padding: 12px 20px;
     cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    background-color: #42a5f5; /* Un tono de azul para los botones */
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1e88e5; /* Oscurecer al pasar el ratón */
 }
 
 .table-container {
@@ -31,41 +53,54 @@ button {
     flex-direction: column;
     gap: 10px;
     margin-bottom: 20px;
+    width: 100%; /* La tabla ocupa todo el ancho del contenedor main */
 }
 
 .row {
     display: flex;
     align-items: center;
     gap: 10px;
+    width: 100%; /* Cada fila ocupa todo el ancho del contenedor de la tabla */
 }
 
 .row label {
-    width: 80px;
+    width: 120px; /* Un poco más de espacio para la etiqueta */
     text-align: right;
+    font-weight: bold;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    width: calc(100% / 8 - 10px); /* Distribución equitativa de los inputs */
 }
 
 .valve-input {
-    flex-grow: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
+    padding: 10px;
+    border: 1px solid #90caf9; /* Un borde azul claro */
     border-radius: 4px;
     text-align: center;
+    box-sizing: border-box; /* Incluir el padding y el borde en el ancho */
+    width: 100%; /* El input ocupa todo el ancho de su contenedor */
 }
 
 .valve-input.marked {
     background-color: #c8e6c9; /* Verde claro para indicar marcado */
 }
 
-.messages-container {
-    margin-top: 20px;
-    text-align: center;
-    font-style: italic;
+.input-container .message {
+    font-size: 0.8em;
     color: #555;
+    text-align: center;
+    margin-top: 5px;
+    font-style: italic;
 }
 
 footer {
+    background-color: #1e88e5;
+    color: white;
     text-align: center;
-    margin-top: 30px;
-    color: #777;
-    font-size: 0.8em;
+    padding: 10px;
+    font-size: 0.9em;
 }
