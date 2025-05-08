@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rectificación de Altura de Válvulas - Taller STAS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png"> <meta name="theme-color" content="#f2f2f2"> </head>
+<body>
+    <header>
+        <h1>Rectificación de Altura de Válvulas</h1>
+        <p class="subheader">Taller STAS</p>
+    </header>
+
+    <main>
+        <div class="button-container">
+            <button id="toggle-position">VOLTEAR POSICIÓN</button>
+            <button id="reset-button">RESET</button>
+        </div>
+
+        <div class="table-container">
+            <div class="row" id="escape-row">
+                <label>ESCAPE</label>
+                <input type="number" class="valve-input" data-index="0">
+                <input type="number" class="valve-input" data-index="1">
+                <input type="number" class="valve-input" data-index="2">
+                <input type="number" class="valve-input" data-index="3">
+                <input type="number" class="valve-input" data-index="4">
+                <input type="number" class="valve-input" data-index="5">
+                <input type="number" class="valve-input" data-index="6">
+                <input type="number" class="valve-input" data-index="7">
+            </div>
+            <div class="row" id="admission-row">
+                <label>ADMISIÓN</label>
+                <input type="number" class="valve-input" data-index="8">
+                <input type="number" class="valve-input" data-index="9">
+                <input type="number" class="valve-input" data-index="10">
+                <input type="number" class="valve-input" data-index="11">
+                <input type="number" class="valve-input" data-index="12">
+                <input type="number" class="valve-input" data-index="13">
+                <input type="number" class="valve-input" data-index="14">
+                <input type="number" class="valve-input" data-index="15">
+            </div>
+        </div>
+
+        <div class="messages-container">
+            </div>
+    </main>
+
+    <footer>
+        <p>&copy; Taller STAS</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
