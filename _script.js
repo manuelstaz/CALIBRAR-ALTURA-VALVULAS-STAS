@@ -3,13 +3,15 @@ const valveInputs = document.querySelectorAll('.valve-input');
 
 valveInputs.forEach(input => {
     input.addEventListener('focus', () => {
-        input.classList.toggle('marked'); // Alterna la clase 'marked' al enfocar
+        input.classList.toggle('marked');
+        // Limpiar el mensaje al enfocar (opcional)
+        input.nextElementSibling.textContent = '';
     });
 
-    // Aquí puedes agregar la lógica para calcular y mostrar el mensaje
     input.addEventListener('blur', () => {
         const index = parseInt(input.dataset.index);
         const enteredValue = parseInt(input.value);
+        const messageDiv = input.nextElementSibling; // El siguiente elemento hermano es el div.message
 
         if (!isNaN(enteredValue)) {
             const idealAverage = 11;
@@ -25,16 +27,19 @@ valveInputs.forEach(input => {
 
             let message = '';
             if (difference > 0) {
-                message = `AUMENTA la altura en ${difference} mm para llegar al promedio ideal de ${valveType}.`;
+                message = `Aumenta ${difference} mm (Escape).`;
+                if (valveType === 'ADMISIÓN') message = `Aumenta ${difference} mm (Admisión).`;
             } else if (difference < 0) {
-                message = `DISMINUYE la altura en ${Math.abs(difference)} mm para llegar al promedio ideal de ${valveType}.`;
+                message = `Disminuye ${Math.abs(difference)} mm (Escape).`;
+                if (valveType === 'ADMISIÓN') message = `Disminuye ${Math.abs(difference)} mm (Admisión).`;
             } else {
-                message = `La altura está en el promedio ideal de ${valveType}.`;
+                message = `Promedio ideal (Escape).`;
+                if (valveType === 'ADMISIÓN') message = `Promedio ideal (Admisión).`;
             }
 
-            // Aquí podrías mostrar el mensaje en el div .messages-container
-            console.log(`Campo ${index} (${valveType}): ${message}`);
-            // Por ahora, lo mostramos en la consola. Luego lo integraremos al HTML.
+            messageDiv.textContent = message;
+        } else {
+            messageDiv.textContent = ''; // Limpiar el mensaje si no hay valor válido
         }
     });
 });
@@ -43,11 +48,10 @@ valveInputs.forEach(input => {
 const togglePositionButton = document.getElementById('toggle-position');
 const escapeRow = document.getElementById('escape-row');
 const admissionRow = document.getElementById('admission-row');
+const escapeLabel = escapeRow.querySelector('label');
+const admissionLabel = admissionRow.querySelector('label');
 
 togglePositionButton.addEventListener('click', () => {
-    const escapeLabel = escapeRow.querySelector('label');
-    const admissionLabel = admissionRow.querySelector('label');
-
     const tempLabel = escapeLabel.textContent;
     escapeLabel.textContent = admissionLabel.textContent;
     admissionLabel.textContent = tempLabel;
@@ -61,10 +65,9 @@ resetButton.addEventListener('click', () => {
         valveInputs.forEach(input => {
             input.value = ''; // Limpia los campos de entrada
             input.classList.remove('marked'); // Remueve la clase 'marked'
+            input.nextElementSibling.textContent = ''; // Limpia los mensajes
             // Aquí iría la lógica para regenerar los valores default ocultos
-            // Por ahora, solo limpiamos la visualización
         });
-        // Aquí también podrías limpiar los mensajes mostrados
         console.log("Valores reseteados.");
     }
 });
