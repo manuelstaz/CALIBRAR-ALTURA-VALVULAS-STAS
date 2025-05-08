@@ -1,10 +1,46 @@
 /* style.css */
-/* ... otros estilos ... */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #e3f2fd; /* Azul institucional claro */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    align-items: center; /* Centrar contenido horizontalmente */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+header {
+    background-color: #1e88e5; /* Azul más fuerte para el encabezado */
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 80%; /* Ancho del encabezado */
+    max-width: 600px;
+}
+
+.subheader {
+    color: #bbdefb;
+}
+
+main {
+    display: flex;
+    gap: 20px; /* Espacio entre las columnas de Escape y Admisión */
+    margin-bottom: 20px;
+    width: 95%; /* Ancho del main */
+    max-width: 700px;
+    align-items: flex-start; /* Alinea las columnas al inicio */
+}
 
 .arrow-indicator {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    width: 100%;
+    justify-content: flex-start;
 }
 
 .arrow-indicator img {
@@ -13,38 +49,28 @@
     margin-right: 5px;
 }
 
-.table-container {
+.columns-container {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 20px;
-    width: 100%;
-    overflow-x: auto; /* Permite el desplazamiento horizontal si la tabla es muy ancha */
+    gap: 20px;
 }
 
-.valve-group {
+.column {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-.valve-row {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.valve-row label {
-    width: 80px;
-    text-align: right;
+.column label {
     font-weight: bold;
+    text-align: center;
+    margin-bottom: 5px;
 }
 
 .input-container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centrar el input y el mensaje */
-    width: 60px; /* Ancho fijo para cada columna */
+    align-items: center;
+    width: 60px; /* Ancho fijo para cada campo */
     position: relative;
 }
 
@@ -63,7 +89,7 @@
     box-sizing: border-box;
     width: 100%;
     font-size: 0.8em;
-    cursor: pointer; /* Indicar que es interactivo para fijar color */
+    cursor: pointer;
 }
 
 .valve-input.marked {
@@ -81,7 +107,7 @@
     text-align: center;
     margin-top: 3px;
     font-style: italic;
-    min-height: 1.2em; /* Espacio mínimo para el mensaje */
+    min-height: 1.2em;
 }
 
 .controls-container {
@@ -89,6 +115,8 @@
     gap: 10px;
     justify-content: center;
     margin-top: 20px;
+    width: 80%;
+    max-width: 500px;
 }
 
 .controls-container button {
@@ -98,10 +126,17 @@
     border-radius: 5px;
     font-weight: bold;
     color: white;
-    background-color: #64b5f6; /* Otro tono de azul para los controles */
+    background-color: #64b5f6; /* Azul para los controles */
     transition: background-color 0.3s ease;
 }
 
 .controls-container button:hover {
     background-color: #1e88e5;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #777;
+    font-size: 0.8em;
 }
